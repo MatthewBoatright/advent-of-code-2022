@@ -1,10 +1,20 @@
 SHAPE_MAP = {
   "A" => :rock,
-  "X" => :rock,
   "B" => :paper,
-  "Y" => :paper,
   "C" => :scissors,
-  "Z" => :scissors,
+}
+
+OUTCOME_MAP = {
+  "X" => :lose,
+  "Y" => :draw,
+  "Z" => :win
+}
+
+# shape => [shape_to_lose, shape_to_win]
+RULES = {
+  :rock => [:scissors, :paper],
+  :paper => [:rock, :scissors],
+  :scissors => [:paper, :rock],
 }
 
 SHAPE_POINTS = {
@@ -13,7 +23,7 @@ SHAPE_POINTS = {
   :scissors => 3
 }
 
-ROUND_POINTS = {
+OUTCOME_POINTS = {
   :lose => 0,
   :draw => 3,
   :win => 6
@@ -23,7 +33,8 @@ def process_input(input)
   res = []
 
   File.foreach(input) do |line|
-    res << line.split.map { |c| SHAPE_MAP[c] }
+    l = line.split
+    res << [SHAPE_MAP[l.first], OUTCOME_MAP[l.last]]
   end
 
   res
@@ -33,25 +44,25 @@ def calculate_own_score(game)
   score = 0
 
   game.each do |round|
-    round_result = determine_round_result(round)
-    score += (SHAPE_POINTS[round.last] + ROUND_POINTS[round_result])
+    opponent_shape = round.first
+    outcome = round.last
+    outcome_score = OUTCOME_POINTS[outcome]
+
+    shape = determine_shape(opponent_shape, outcome)
+    shape_score = SHAPE_POINTS[shape]
+
+    score += (outcome_score + shape_score)
+    puts "#{round} => Must select #{shape} for #{shape_score} points. Results in a #{outcome} for #{outcome_score} points."
   end
 
   score
 end
 
-def determine_round_result(round)
-  opponent_shape = round.first
-  my_shape = round.last
+def determine_shape(opponent_shape, outcome)
+  return opponent_shape if outcome == :draw
 
-  case my_shape
-  when :rock
-    return opponent_shape == :rock ? :draw : opponent_shape == :paper ? :lose : :win
-  when :paper
-    return opponent_shape == :paper ? :draw : opponent_shape == :scissors ? :lose : :win
-  when :scissors
-    return opponent_shape == :scissors ? :draw : opponent_shape == :rock ? :lose : :win
-  end
+  action_index = outcome == :lose ? 0 : 1
+  return RULES[opponent_shape][action_index]
 end
 
 if ARGV.length < 1
