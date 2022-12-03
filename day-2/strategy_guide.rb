@@ -10,11 +10,22 @@ OUTCOME_MAP = {
   "Z" => :win
 }
 
-# shape => [shape_to_lose, shape_to_win]
 RULES = {
-  :rock => [:scissors, :paper],
-  :paper => [:rock, :scissors],
-  :scissors => [:paper, :rock],
+  :rock => {
+    :lose => :scissors,
+    :draw => :rock,
+    :win => :paper
+  },
+  :paper => {
+    :lose => :rock,
+    :draw => :paper,
+    :win => :scissors
+  },
+  :scissors => {
+    :lose => :paper,
+    :draw => :scissors,
+    :win => :rock
+  }
 }
 
 SHAPE_POINTS = {
@@ -48,7 +59,7 @@ def calculate_own_score(game)
     outcome = round.last
     outcome_score = OUTCOME_POINTS[outcome]
 
-    shape = determine_shape(opponent_shape, outcome)
+    shape = RULES[opponent_shape][outcome]
     shape_score = SHAPE_POINTS[shape]
 
     score += (outcome_score + shape_score)
@@ -56,13 +67,6 @@ def calculate_own_score(game)
   end
 
   score
-end
-
-def determine_shape(opponent_shape, outcome)
-  return opponent_shape if outcome == :draw
-
-  action_index = outcome == :lose ? 0 : 1
-  return RULES[opponent_shape][action_index]
 end
 
 if ARGV.length < 1
