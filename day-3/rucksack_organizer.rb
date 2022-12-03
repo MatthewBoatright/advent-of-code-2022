@@ -6,7 +6,7 @@ def process_input(input)
   res = []
 
   File.foreach(input) do |line|
-    chars = line.chars
+    chars = line.strip.chars
     len = line.length
     
     res << [chars[0..len/2], chars[len/2..-1]]
@@ -24,6 +24,23 @@ def priority_sum_of_common_items(rucksacks)
     sum += item_priority
 
     puts "Common item; '#{common_item}'. Priority; '#{item_priority}'"
+  end
+
+  sum
+end
+
+def priority_sum_of_group_items(rucksacks)
+  sum = 0
+  len = rucksacks.length
+
+  (len / 3).times do |group|
+    a, b, c = rucksacks.slice((group * 3), 3).map(&:flatten).map(&:to_set)
+    
+    common_group_item = (a & b & c).first
+    item_priority = ITEM_PRIORITIES.index(common_group_item)
+    sum += item_priority
+
+    puts "Common group item; '#{common_group_item}'. Priority; '#{item_priority}'."
   end
 
   sum
@@ -53,6 +70,6 @@ end
 
 input = ARGV[0]
 rucksacks = process_input(input)
-priority_sum = priority_sum_of_common_items(rucksacks)
 
-puts priority_sum
+puts priority_sum_of_common_items(rucksacks)
+puts priority_sum_of_group_items(rucksacks)
