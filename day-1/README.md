@@ -1,0 +1,1 @@
+Usage: ruby calorie_counter.rb <input_file> [<limit>]

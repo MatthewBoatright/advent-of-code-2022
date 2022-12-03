@@ -1,4 +1,6 @@
-def count_max_calories(input, limit = 3)
+DEFAULT_LIMIT = 3
+
+def count_max_calories(input, limit)
   puts "Opening input file: #{input}"
 
   max_calories = Array.new(limit, 0)
@@ -18,9 +20,11 @@ def count_max_calories(input, limit = 3)
   max_calories.sum
 end
 
-if ARGV.length != 1
+if ARGV.length < 1
   puts "Please provide the filename for the text input."
   exit 1
 end
 
-puts count_max_calories(ARGV.first)
+input = ARGV[0]
+limit = ARGV.length > 1 ? ARGV[1].to_i : DEFAULT_LIMIT
+puts count_max_calories(input, limit)
