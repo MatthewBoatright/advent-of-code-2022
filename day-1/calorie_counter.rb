@@ -1,22 +1,30 @@
 DEFAULT_LIMIT = 3
 
-def count_max_calories(input, limit)
-  puts "Opening input file: #{input}"
+def process_input(input)
+  res = []
 
-  max_calories = Array.new(limit, 0)
-  cur_calories = 0
+  cur = []
   File.foreach(input) do |line|
     if line == "\n"
-      max_calories[0] = cur_calories if cur_calories > max_calories.first
-      max_calories.sort!
-
-      cur_calories = 0
+      res << cur
+      cur = []
     else
-      cur_calories += line.to_i
+      cur << line.to_i
     end
   end
 
-  max_calories[0] = cur_calories if cur_calories > max_calories.first
+  res << cur
+end
+
+def count_max_calories(calories_by_elf, limit)
+  max_calories = Array.new(limit, 0)
+
+  calories_by_elf.each do |calories|
+    sum = calories.sum
+    max_calories[0] = sum if sum > max_calories[0]
+    max_calories.sort!
+  end
+
   max_calories.sum
 end
 
@@ -27,4 +35,8 @@ end
 
 input = ARGV[0]
 limit = ARGV.length > 1 ? ARGV[1].to_i : DEFAULT_LIMIT
-puts count_max_calories(input, limit)
+
+calories_by_elf = process_input(input)
+max_calories = count_max_calories(calories_by_elf, limit)
+
+puts max_calories
