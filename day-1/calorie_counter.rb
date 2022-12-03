@@ -21,7 +21,7 @@ def count_max_calories(input, limit)
 end
 
 if ARGV.length < 1
-  puts "Please provide the filename for the text input."
+  puts "Usage: ruby calorie_counter.rb <input_file> [<limit>]"
   exit 1
 end
 
