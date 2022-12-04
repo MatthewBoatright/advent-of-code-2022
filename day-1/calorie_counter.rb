@@ -27,7 +27,7 @@ def count_max_calories(calories_by_elf, limit)
 end
 
 if ARGV.length < 1
-  puts "Usage: ruby calorie_counter.rb <input_file> [<limit>]"
+  puts "Usage: ruby calorie_counter.rb <input_file>"
   exit 1
 end
 
