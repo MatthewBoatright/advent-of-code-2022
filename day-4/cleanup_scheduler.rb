@@ -15,18 +15,32 @@ def process_input(input)
   res
 end
 
-def count_fully_contained_assignments(assignments)
-  fully_contained_assignments = 0
+def count_fully_contained_tasks(task_pairs)
+  fully_contained_tasks = 0
 
-  assignments.each do |assignment|
-    a, b = assignment[0].to_a, assignment[1].to_a
+  task_pairs.each do |task_pair|
+    a, b = task_pair[0].to_a, task_pair[1].to_a
 
     intersection = a & b
 
-    fully_contained_assignments += 1 if intersection == a || intersection == b
+    fully_contained_tasks += 1 if intersection == a || intersection == b
   end
 
-  fully_contained_assignments
+  fully_contained_tasks
+end
+
+def count_overlapping_tasks(task_pairs)
+  overlapping_tasks = 0
+
+  task_pairs.each do |task_pair|
+    a, b = task_pair[0].to_a, task_pair[1].to_a
+
+    intersection = a & b
+
+    overlapping_tasks += 1 unless intersection.empty?
+  end
+
+  overlapping_tasks
 end
 
 if ARGV.length < 1
@@ -35,6 +49,7 @@ if ARGV.length < 1
 end
 
 input = ARGV[0]
-assignments = process_input(input)
+task_pairs = process_input(input)
 
-puts count_fully_contained_assignments(assignments)
+puts count_fully_contained_tasks(task_pairs)
+puts count_overlapping_tasks(task_pairs)
