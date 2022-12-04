@@ -1,0 +1,1 @@
+A colleciton of programs to solve the daily challenges from the [Advent of Code 2022](https://adventofcode.com/2022).
