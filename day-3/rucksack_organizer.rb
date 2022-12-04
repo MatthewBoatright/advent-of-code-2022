@@ -19,11 +19,11 @@ def priority_sum_of_common_items(rucksacks)
   sum = 0
 
   rucksacks.each do |rucksack|
-    common_item = find_common_item(rucksack)
+    a, b = rucksack[0], rucksack[1]
+
+    common_item = (a & b).first
     item_priority = ITEM_PRIORITIES.index(common_item)
     sum += item_priority
-
-    puts "Common item; '#{common_item}'. Priority; '#{item_priority}'"
   end
 
   sum
@@ -39,28 +39,9 @@ def priority_sum_of_group_items(rucksacks)
     common_group_item = (a & b & c).first
     item_priority = ITEM_PRIORITIES.index(common_group_item)
     sum += item_priority
-
-    puts "Common group item; '#{common_group_item}'. Priority; '#{item_priority}'."
   end
 
   sum
-end
-
-def find_common_item(rucksack)
-  compartment_length = rucksack[0].length
-  first_compartment, second_compartment = rucksack[0], rucksack[1]
-  first_compartment_items, second_compartment_items = Set.new, Set.new
-
-  compartment_length.times do |i|
-    a, b = first_compartment[i], second_compartment[i]
-    first_compartment_items.add(a)
-    second_compartment_items.add(b)
-
-    return a if second_compartment_items.include?(a)
-    return b if first_compartment_items.include?(b)
-  end
-
-  nil
 end
 
 if ARGV.length < 1
