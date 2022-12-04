@@ -1,5 +1,3 @@
-DEFAULT_LIMIT = 3
-
 def process_input(input)
   res = []
 
@@ -34,9 +32,7 @@ if ARGV.length < 1
 end
 
 input = ARGV[0]
-limit = ARGV.length > 1 ? ARGV[1].to_i : DEFAULT_LIMIT
-
 calories_by_elf = process_input(input)
-max_calories = count_max_calories(calories_by_elf, limit)
 
-puts max_calories
+puts count_max_calories(calories_by_elf, 1)
+puts count_max_calories(calories_by_elf, 3)
