@@ -29,7 +29,8 @@ end
 
 def rearrange_stacks(procedure)
   procedure.each do |qty, from, to|
-    crates = STACKS[from].shift(qty).reverse
+    crates = STACKS[from].shift(qty)
+    #crates.reverse! #Uncomment if using CrateMover 9000.
     next if crates == nil
 
     STACKS[to] = crates + STACKS[to]
