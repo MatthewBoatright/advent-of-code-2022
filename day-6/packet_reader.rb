@@ -3,7 +3,7 @@ if ARGV.length < 1
   exit 1
 end
 
-def find_start_marker_index(stream, marker_length)
+def find_marker_start_index(stream, marker_length)
   chars = stream.chars
 
   0.upto(stream.length - marker_length) do |i|
@@ -19,5 +19,5 @@ end
 input = ARGV[0]
 stream = File.read(input)
 
-puts find_start_marker_index(stream, 4)
-puts find_start_marker_index(stream, 14)
+puts find_marker_start_index(stream, 4)
+puts find_marker_start_index(stream, 14)
