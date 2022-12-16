@@ -32,3 +32,8 @@ input = ARGV[0]
 dir_sizes = process_input(input)
 
 puts dir_sizes.select{ |k,v| v <= 100000 }.values.sum
+
+filesystem_size_total = dir_sizes[["/"]]
+size_needed = 30000000 - (70000000 - filesystem_size_total)
+
+puts dir_sizes.select{ |k,v| v >= size_needed }.values.min
